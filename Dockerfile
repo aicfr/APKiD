@@ -1,6 +1,6 @@
 FROM python:2.7.15-alpine3.8
 
-RUN apk update && apk add --no-cache build-base gcc git curl wget openjdk8-jre-base bash
+RUN apk update && apk add --no-cache build-base gcc git curl wget openjdk8-jre-base
 RUN pip install --upgrade pip
 
 RUN git clone --recursive https://github.com/rednaga/yara-python-1.git yara-python
@@ -20,5 +20,3 @@ WORKDIR /input
 
 # Cleanup
 RUN rm -rf /var/cache/apk/*
-
-ENTRYPOINT ["bash"]
