@@ -1,10 +1,10 @@
-FROM python:2.7-slim
+FROM python:2.7.15-alpine3.8
 
-RUN apt-get update -qq && apt-get install -y git build-essential gcc pandoc
+RUN apk update && apk add --no-cache build-base gcc git curl wget openjdk8-jre-base bash
 RUN pip install --upgrade pip
 
 RUN git clone --recursive https://github.com/rednaga/yara-python-1.git yara-python
-WORKDIR yara-python
+WORKDIR /yara-python
 RUN CFLAGS="-std=gnu99" python setup.py build --enable-dex install
 
 RUN mkdir /apkid
@@ -18,4 +18,7 @@ RUN pip install -e .[dev]
 RUN mkdir /input
 WORKDIR /input
 
-ENTRYPOINT ["apkid"]
+# Cleanup
+RUN rm -rf /var/cache/apk/*
+
+ENTRYPOINT ["bash"]
